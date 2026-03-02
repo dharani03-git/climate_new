@@ -89,7 +89,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col">
+    <section className="relative w-full h-screen pt-20 flex flex-col">
       {/* ── Background images (absolute, behind everything) ── */}
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
