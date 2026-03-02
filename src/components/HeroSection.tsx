@@ -122,17 +122,17 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5, delay: 0.15 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-5 text-center w-[70%] max-w-[900px] px-5"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-5 text-center w-full px-6"
           >
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight mb-5 text-white w-full text-center break-words whitespace-normal">
-              {slide.headline}
-            </h1>
+            <div className="max-w-3xl mx-auto">
+              <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight mb-5 text-white w-full text-center">
+                {slide.headline}
+              </h1>
 
-            <p className="text-lg md:text-xl text-white/75 font-medium italic mb-8 w-full text-center break-words whitespace-normal">
-              {slide.subheadline}
-            </p>
+              <p className="text-lg md:text-xl text-white/75 font-medium italic mb-8 w-full text-center">
+                {slide.subheadline}
+              </p>
 
-            <div className="flex justify-center">
               <a
                 href={slide.ctaHref}
                 className="inline-flex items-center gap-3 px-7 py-3.5 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:brightness-110 transition-all shadow-lg shadow-primary/25"
