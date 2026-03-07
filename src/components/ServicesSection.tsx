@@ -38,6 +38,7 @@ const ServicesSection = () => {
       title: "Financial & Economic Modeling",
       tag: "Finance",
       emoji: "📊",
+      image: "/finance_buildings.png",
       description:
         "Total cost of ownership (TCO) analysis, incentive optimisation, investment case development, risk management. We build the financial models that make climate infrastructure bankable and investment decisions defensible.",
       keyActivities: [
@@ -83,6 +84,7 @@ const ServicesSection = () => {
       title: "Digital & Data",
       tag: "Technology",
       emoji: "💡",
+      image: "/climate_analytics.png",
       description:
         "Battery analytics, predictive maintenance, fleet management platforms, AI-driven optimisation. We integrate data intelligence into every layer of climate infrastructure — turning operational data into performance gains and cost savings.",
       keyActivities: [
@@ -98,6 +100,7 @@ const ServicesSection = () => {
       title: "Sustainability & ESG",
       tag: "ESG",
       emoji: "🌿",
+      image: "/sustainability.png",
       description:
         "Circular economy design, carbon footprint reduction, ESG reporting and disclosure. We help organisations move beyond compliance to build sustainability programmes that create measurable value and credibility with investors, regulators, and customers.",
       keyActivities: [
@@ -152,59 +155,77 @@ const ServicesSection = () => {
 
 
 
-        {/* Services list */}
-        <div className="space-y-1">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.id}
-              id={service.id}
-              className="group relative overflow-hidden rounded-2xl border border-border/40 bg-card/50 hover:bg-card hover:border-primary/35 transition-all duration-400 scroll-mt-32"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ delay: index * 0.04, duration: 0.5 }}
-            >
-              {/* Left accent line */}
-              <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-primary/0 group-hover:bg-primary/60 transition-all duration-400 rounded-l-full" />
+        {/* Dynamic Bento Box Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, index) => {
+            const hasImage = !!service.image;
+            return (
+              <motion.div
+                key={service.id}
+                id={service.id}
+                className={`group relative overflow-hidden rounded-2xl border border-border/40 transition-all duration-400 scroll-mt-32 flex flex-col ${hasImage
+                    ? "lg:col-span-2 md:col-span-2 col-span-1 min-h-[400px]"
+                    : "col-span-1 bg-card/40 hover:bg-card hover:border-primary/40 min-h-[300px]"
+                  }`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: index * 0.05, duration: 0.5 }}
+              >
+                {/* Background Image Effect for Featured Cards */}
+                {hasImage && (
+                  <>
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-black/30" />
+                  </>
+                )}
 
-              {/* Summary row (always visible) */}
-              <div className="flex flex-wrap items-center gap-4 px-8 py-6">
-                <span className="text-2xl" aria-hidden>{service.emoji}</span>
-                <div className="flex-1 min-w-[200px]">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-xl font-bold group-hover:text-primary transition-colors">{service.title}</h3>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/8 text-primary border border-primary/15">
+                {/* Content Container */}
+                <div className="relative z-10 flex flex-col h-full p-8">
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="text-3xl" aria-hidden>
+                      {service.emoji}
+                    </span>
+                    <span
+                      className={`text-[10px] font-semibold uppercase tracking-widest px-3 py-1 rounded-full border ${hasImage
+                          ? "bg-primary/20 text-primary-foreground border-primary/30"
+                          : "bg-primary/5 text-primary border-primary/10"
+                        }`}
+                    >
                       {service.tag}
                     </span>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-1 max-w-2xl leading-relaxed">
+
+                  <h3 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
+                    {service.title}
+                  </h3>
+
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow">
                     {service.description}
                   </p>
-                </div>
-                <ArrowUpRight className="w-5 h-5 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300 flex-shrink-0" />
-              </div>
 
-              {/* Key activities (revealed on hover via max-h transition) */}
-              <div className="max-h-0 group-hover:max-h-80 overflow-hidden transition-[max-height] duration-500 ease-in-out">
-                <div className="px-8 pb-6 pt-0 border-t border-border/30">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-primary/80 mb-4 pt-5">
-                    Key Activities
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                    {service.keyActivities.map((activity, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-start gap-3 px-4 py-3 rounded-xl bg-background/50 border border-border/40 hover:border-primary/30 transition-colors"
-                      >
-                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-xs text-muted-foreground leading-relaxed">{activity}</span>
+                  {/* Key Activities Grid (Smaller nested list) */}
+                  <div className="grid grid-cols-1 gap-2 mt-auto">
+                    {service.keyActivities.slice(0, 3).map((activity, idx) => (
+                      <div key={idx} className="flex items-start gap-2">
+                        <CheckCircle className="w-3.5 h-3.5 text-primary flex-shrink-0 mt-0.5 opacity-80" />
+                        <span className="text-xs text-muted-foreground/90">{activity}</span>
                       </div>
                     ))}
                   </div>
+
+                  {/* Subtle link arrow */}
+                  <div className="absolute top-8 right-8 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ArrowUpRight className="w-4 h-4 text-primary" />
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* CTA */}
