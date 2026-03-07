@@ -7,8 +7,14 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ICPPage from "./pages/ICP";
 import { useEffect } from "react";
+import { useAnalyticsTracking } from "./hooks/useAnalyticsTracking";
 
 const queryClient = new QueryClient();
+
+const AnalyticsTracker = () => {
+  useAnalyticsTracking();
+  return null;
+};
 
 const App = () => {
 
@@ -18,6 +24,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <AnalyticsTracker />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/icp" element={<ICPPage />} />

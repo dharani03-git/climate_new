@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Mail, Phone, Globe, Clock, Send, CheckCircle2, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { submitContactForm, trackBehavior } from "@/lib/analytics";
 
 const helpOptions = [
     "Climate Strategy & Net-Zero Roadmapping",
@@ -42,9 +43,23 @@ const ContactSection = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSubmitting(true);
-        await new Promise((r) => setTimeout(r, 1800));
-        setSubmitting(false);
-        setSubmitted(true);
+        try {
+            await submitContactForm({
+                name: `${formData.firstName} ${formData.lastName}`.trim(),
+                email: formData.email,
+                company: formData.organisation,
+                serviceInterest: formData.helpWith,
+                message: formData.message,
+                status: "New lead"
+            });
+            trackBehavior('Form', 'Contact Form Submitted', 'Success');
+        } catch (error) {
+            console.error("Error submitting form", error);
+            trackBehavior('Form', 'Contact Form Error', 'Failed to submit');
+        } finally {
+            setSubmitting(false);
+            setSubmitted(true);
+        }
     };
 
     const inputClass =

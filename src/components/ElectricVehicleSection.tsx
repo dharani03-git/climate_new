@@ -1,608 +1,478 @@
 import { motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import {
+  Zap, BarChart3, TrendingUp, ShoppingCart, Leaf,
+  Shield, Layers, Lightbulb, Cpu, ChevronRight, ArrowUpRight,
+} from "lucide-react";
 
-const ElectricVehicleSection = () => {
-  const evBusinessModels = [
-    {
-      model: "Energy-as-a-Service (EaaS)",
-      description: "Subscription-based energy services without equipment ownership",
-      application: "Corporate charging, fleet depots, workplace charging",
-    },
-    {
-      model: "Virtual Power Plants (VPP)",
-      description: "Aggregated decentralized energy resources (EVs + storage)",
-      application: "Grid balancing, demand response, revenue stacking",
-    },
-    {
-      model: "Vehicle-to-Grid (V2G)",
-      description: "Bidirectional energy flow from EVs to grid",
-      application: "Fleet vehicles as mobile storage assets",
-    },
-    {
-      model: "Battery-as-a-Service (BaaS)",
-      description: "Separated battery ownership from vehicle purchase",
-      application: "Swappable batteries, reduced upfront EV costs",
-    },
-    {
-      model: "Charging-as-a-Service (CaaS)",
-      description: "Third-party ownership and operation of charging infrastructure",
-      application: "Retail locations, multi-family dwellings",
-    },
-    {
-      model: "Green Certificates/RECs",
-      description: "Tradable environmental attributes for carbon offsetting",
-      application: "Corporate sustainability goals",
-    },
-    {
-      model: "Microgrids + P2P Trading",
-      description: "Localized energy generation and direct trading",
-      application: "Campus settings, residential communities",
-    },
-    {
-      model: "Corporate PPAs for EV Fleets",
-      description: "Long-term renewable energy contracts for charging",
-      application: "Large fleet operators, logistics companies",
-    },
-  ];
+/* ─── Scroll-spy nav ────────────────────────────────────── */
+const NAV_ITEMS = [
+  { id: "ev-section", label: "Electric Vehicle", num: "00" },
+  { id: "technical-engineering", label: "Technical & Engineering Advisory", num: "01" },
+  { id: "financial-advisory", label: "Financial Advisory & Structuring", num: "02" },
+  { id: "transaction-capital", label: "Transaction & Capital Markets", num: "03" },
+  { id: "commercial-market", label: "Commercial & Market Strategy", num: "04" },
+  { id: "green-energy", label: "Specialized Green Energy Advisory", num: "05" },
+  { id: "regulatory-sustainability", label: "Regulatory, ESG & Sustainability", num: "06" },
+  { id: "project-lifecycle", label: "Project Lifecycle Support", num: "07" },
+  { id: "innovative-business-models", label: "Innovative Business Models", num: "08" },
+  { id: "cross-cutting-capabilities", label: "Cross-Cutting Capabilities", num: "✦" },
+];
 
-  const advisoryServices = [
-    {
-      category: "Strategic Advisory",
-      details: "Market entry, M&A, partnership structuring, ecosystem development",
-    },
-    {
-      category: "Technical Engineering",
-      details: "Powertrain design, battery technology, charging systems, grid integration",
-    },
-    {
-      category: "Financial & Economic Modeling",
-      details: "TCO analysis, incentive optimization, investment cases, risk management",
-    },
-    {
-      category: "Regulatory & Policy",
-      details: "Compliance strategy, subsidy navigation, carbon credit optimization",
-    },
-    {
-      category: "Supply Chain",
-      details: "Localization strategy, supplier diversification, resilience planning",
-    },
-    {
-      category: "Digital & Data",
-      details: "Battery analytics, predictive maintenance, fleet management platforms, AI optimization",
-    },
-    {
-      category: "Sustainability & ESG",
-      details: "Circular economy design, carbon footprint reduction, ESG reporting",
-    },
-  ];
+/* ─── Reusable table ─────────────────────────────────────── */
+type Row = Record<string, string>;
 
-  const SectionTable = ({
-    title,
-    columns,
-    rows,
-    id,
-  }: {
-    title: string;
-    columns: string[];
-    rows: Record<string, string>[];
-    id: string;
-  }) => (
-    <motion.div
-      id={id}
-      className="mb-16 scroll-mt-32"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-    >
-      <h3 className="text-3xl font-bold mb-8 text-foreground">{title}</h3>
-      <div className="overflow-x-auto rounded-xl bg-card border border-border/50">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-primary/10 border-b border-border/50">
-              {columns.map((col, idx) => (
-                <th
-                  key={idx}
-                  className="px-6 py-4 text-left text-sm font-semibold text-primary text-gradient-primary"
-                >
-                  {col}
-                </th>
+const SectionTable = ({
+  id, num, title, description, icon: Icon, columns, rows,
+}: {
+  id: string; num: string; title: string; description?: string;
+  icon?: React.ElementType; columns: string[]; rows: Row[];
+}) => (
+  <motion.div
+    id={id}
+    className="scroll-mt-28 mb-20"
+    initial={{ opacity: 0, y: 32 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-50px" }}
+    transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+  >
+    {/* Heading */}
+    <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-7">
+      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+        {Icon ? <Icon className="w-5 h-5 text-primary" /> : (
+          <span className="text-[11px] font-bold font-mono text-primary">{num}</span>
+        )}
+      </div>
+      <div>
+        <div className="flex flex-wrap items-center gap-3 mb-1.5">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-primary/60 font-mono">
+            Group {num}
+          </span>
+        </div>
+        <h3 className="text-2xl md:text-3xl font-bold text-foreground leading-snug">{title}</h3>
+        {description && (
+          <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-2xl">{description}</p>
+        )}
+      </div>
+    </div>
+
+    {/* Table */}
+    <div className="overflow-x-auto rounded-2xl border border-border/50 shadow-[0_4px_32px_hsl(220_18%_4%/0.6)]">
+      <table className="w-full min-w-[620px]">
+        <thead>
+          <tr className="bg-primary/10 border-b border-primary/20">
+            {columns.map((col, i) => (
+              <th key={i} className="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-widest text-primary whitespace-nowrap">
+                {col}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="bg-card/80">
+          {rows.map((row, ri) => (
+            <tr key={ri} className={`border-b border-border/40 transition-colors hover:bg-primary/5 ${ri === rows.length - 1 ? "border-b-0" : ""}`}>
+              {columns.map((col, ci) => (
+                <td key={ci} className={`px-6 py-4 text-sm align-top leading-relaxed ${ci === 0 ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                  {row[col]}
+                </td>
               ))}
             </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, rowIdx) => (
-              <tr
-                key={rowIdx}
-                className="border-b border-border/50 hover:bg-secondary/30 transition-colors"
-              >
-                {columns.map((col, colIdx) => (
-                  <td
-                    key={colIdx}
-                    className="px-6 py-4 text-sm text-muted-foreground align-top"
-                  >
-                    {row[col]}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </motion.div>
-  );
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </motion.div>
+);
 
-  const technicalEngineeringData = [
-    {
-      "Capability Category": "Project Development Engineering",
-      "Core Offerings": "Feasibility studies, site assessment, technical design",
-      "Key Deliverables": "Technical reports, engineering plans, cost estimates",
-    },
-    {
-      "Capability Category": "Design & Engineering Management",
-      "Core Offerings": "Engineering oversight, design optimization, vendor management",
-      "Key Deliverables": "Performance specifications, design documentation",
-    },
-    {
-      "Capability Category": "Construction Advisory",
-      "Core Offerings": "Construction planning, timeline optimization, cost control",
-      "Key Deliverables": "Construction schedules, quality assurance plans",
-    },
-    {
-      "Capability Category": "Grid Integration & Interconnection",
-      "Core Offerings": "Grid impact studies, interconnection agreement support",
-      "Key Deliverables": "Grid study reports, interconnection agreements",
-    },
-    {
-      "Capability Category": "Environmental & Permitting",
-      "Core Offerings": "Environmental impact assessment, permitting strategy",
-      "Key Deliverables": "Environmental reports, permit applications",
-    },
-    {
-      "Capability Category": "Operational Readiness",
-      "Core Offerings": "Operations planning, staff training, maintenance protocols",
-      "Key Deliverables": "O&M manuals, training programs, KPI frameworks",
-    },
-  ];
+/* ─── Data ───────────────────────────────────────────────── */
+const evBusinessModels = [
+  { "Business Model": "Energy-as-a-Service (EaaS)", "Description": "Subscription-based energy services without equipment ownership", "Application": "Corporate charging, fleet depots, workplace charging" },
+  { "Business Model": "Virtual Power Plants (VPP)", "Description": "Aggregated decentralized energy resources (EVs + storage)", "Application": "Grid balancing, demand response, revenue stacking" },
+  { "Business Model": "Vehicle-to-Grid (V2G)", "Description": "Bidirectional energy flow from EVs to grid", "Application": "Fleet vehicles as mobile storage assets" },
+  { "Business Model": "Battery-as-a-Service (BaaS)", "Description": "Separated battery ownership from vehicle purchase", "Application": "Swappable batteries, reduced upfront EV costs" },
+  { "Business Model": "Charging-as-a-Service (CaaS)", "Description": "Third-party ownership and operation of charging infrastructure", "Application": "Retail locations, multi-family dwellings" },
+  { "Business Model": "Green Certificates / RECs", "Description": "Tradable environmental attributes for carbon offsetting", "Application": "Corporate sustainability goals" },
+  { "Business Model": "Microgrids + P2P Trading", "Description": "Localized energy generation and direct trading", "Application": "Campus settings, residential communities" },
+  { "Business Model": "Corporate PPAs for EV Fleets", "Description": "Long-term renewable energy contracts for charging", "Application": "Large fleet operators, logistics companies" },
+];
 
-  const financialAdvisoryData = [
-    {
-      "Capability Category": "Financial Modeling & Analysis",
-      "Core Offerings": "DCF analysis, sensitivity modeling, investment returns",
-      "Key Deliverables": "Financial models, investment analyses",
-    },
-    {
-      "Capability Category": "Capital Stack Structuring",
-      "Core Offerings": "Debt and equity structuring, pricing optimization",
-      "Key Deliverables": "Capital structure recommendations",
-    },
-    {
-      "Capability Category": "Tax Optimization & Structuring",
-      "Core Offerings": "Tax planning, incentive optimization, credit structuring",
-      "Key Deliverables": "Tax optimization strategies",
-    },
-    {
-      "Capability Category": "Project Finance Advisory",
-      "Core Offerings": "Lender packaging, financial due diligence support",
-      "Key Deliverables": "Project finance packages, term sheet negotiations",
-    },
-    {
-      "Capability Category": "Risk Allocation & Mitigation",
-      "Core Offerings": "Risk assessment, mitigation strategies, insurance planning",
-      "Key Deliverables": "Risk registers, mitigation frameworks",
-    },
-    {
-      "Capability Category": "Green Finance Instruments",
-      "Core Offerings": "Green bonds, sustainability-linked loans, credit structuring",
-      "Key Deliverables": "Green financing proposals, framework documentation",
-    },
-  ];
+const advisoryServices = [
+  { category: "Strategic Advisory", detail: "Market entry, M&A, partnership structuring, ecosystem development" },
+  { category: "Technical Engineering", detail: "Powertrain design, battery technology, charging systems, grid integration" },
+  { category: "Financial & Economic Modeling", detail: "TCO analysis, incentive optimization, investment cases, risk management" },
+  { category: "Regulatory & Policy", detail: "Compliance strategy, subsidy navigation, carbon credit optimization" },
+  { category: "Supply Chain", detail: "Localization strategy, supplier diversification, resilience planning" },
+  { category: "Digital & Data", detail: "Battery analytics, predictive maintenance, fleet management platforms, AI optimization" },
+  { category: "Sustainability & ESG", detail: "Circular economy design, carbon footprint reduction, ESG reporting" },
+];
 
-  const transactionCapitalData = [
-    {
-      "Capability Category": "M&A Advisory",
-      "Core Offerings": "Buy-side/sell-side advice, valuation, deal structuring",
-      "Key Deliverables": "Deal analyses, valuation reports, transaction documents",
-    },
-    {
-      "Capability Category": "Capital Raising",
-      "Core Offerings": "Investor sourcing, pitch development, fundraising strategy",
-      "Key Deliverables": "Investment memorandums, pitch materials",
-    },
-    {
-      "Capability Category": "Tax Equity Advisory",
-      "Core Offerings": "Tax equity structuring, investor packaging",
-      "Key Deliverables": "Tax equity structures, investor presentations",
-    },
-    {
-      "Capability Category": "Secondary Market Transactions",
-      "Core Offerings": "Portfolio sales, asset trading, exit strategies",
-      "Key Deliverables": "Investment reports, transaction support",
-    },
-    {
-      "Capability Category": "Development Capital",
-      "Core Offerings": "Development financing, contingency funding structures",
-      "Key Deliverables": "Development proposals, funding secured",
-    },
-  ];
+const technicalData: Row[] = [
+  { "Capability Category": "Project Development Engineering", "Core Offerings": "Feasibility studies, site assessment, resource evaluation, technology selection", "Key Deliverables": "Bankable engineering reports, development timelines, risk registers" },
+  { "Capability Category": "Design & Engineering Management", "Core Offerings": "Conceptual design, detailed engineering, EPC specification, technology integration", "Key Deliverables": "Engineering designs, technical specifications, EPC RFPs" },
+  { "Capability Category": "Construction Advisory", "Core Offerings": "Construction monitoring, quality assurance, schedule oversight, cost control", "Key Deliverables": "Independent Engineer reports, construction progress reports, milestone verification" },
+  { "Capability Category": "Grid Integration & Interconnection", "Core Offerings": "Interconnection studies, transmission planning, grid impact assessment, utility coordination", "Key Deliverables": "Interconnection agreements, grid integration plans, curtailment analysis" },
+  { "Capability Category": "Environmental & Permitting", "Core Offerings": "Environmental impact assessment, permitting strategy, regulatory compliance, ESG due diligence", "Key Deliverables": "EIA reports, permit applications, compliance roadmaps" },
+  { "Capability Category": "Operational Readiness", "Core Offerings": "Commissioning planning, O&M strategy, performance testing, asset handover", "Key Deliverables": "Commissioning protocols, O&M manuals, performance test procedures" },
+];
 
-  const commercialMarketData = [
-    {
-      "Capability Category": "Offtake Strategy",
-      "Core Offerings": "PPA negotiation, offtake agreements, demand assessment",
-      "Key Deliverables": "PPA drafts, market studies",
-    },
-    {
-      "Capability Category": "Market Entry & Expansion",
-      "Core Offerings": "Geographic expansion, market analysis, competitive positioning",
-      "Key Deliverables": "Market entry plans, expansion strategies",
-    },
-    {
-      "Capability Category": "Revenue Optimization",
-      "Core Offerings": "Pricing strategy, revenue modeling, market optimization",
-      "Key Deliverables": "Revenue models, pricing recommendations",
-    },
-    {
-      "Capability Category": "Supply Chain & Procurement",
-      "Core Offerings": "Vendor sourcing, contract negotiation, supply chain optimization",
-      "Key Deliverables": "Procurement strategies, supplier agreements",
-    },
-    {
-      "Capability Category": "Portfolio Management",
-      "Core Offerings": "Portfolio optimization, asset allocation, performance tracking",
-      "Key Deliverables": "Portfolio analyses, management dashboards",
-    },
-  ];
+const financialData: Row[] = [
+  { "Capability Category": "Financial Modeling & Analysis", "Core Offerings": "Probabilistic modeling, scenario analysis, sensitivity testing, optimization algorithms", "Key Deliverables": "Financial models, business cases, investment memos" },
+  { "Capability Category": "Capital Stack Structuring", "Core Offerings": "Debt/equity optimization, hybrid instruments, subordinated financing, mezzanine structures", "Key Deliverables": "Capital structure recommendations, term sheets, waterfall models" },
+  { "Capability Category": "Tax Optimization & Structuring", "Core Offerings": "Tax credit monetization (ITC, PTC, 45Q), depreciation strategies, partnership structures", "Key Deliverables": "Tax equity structures, partnership flip models, tax credit transfer agreements" },
+  { "Capability Category": "Project Finance Advisory", "Core Offerings": "Non-recourse financing, limited recourse structures, construction-to-permanent loans, refinancing", "Key Deliverables": "Financing packages, lender presentations, credit memoranda" },
+  { "Capability Category": "Risk Allocation & Mitigation", "Core Offerings": "EPC wrap structuring, political risk allocation, currency hedging, performance guarantees", "Key Deliverables": "Risk matrices, mitigation strategies, insurance programs" },
+  { "Capability Category": "Green Finance Instruments", "Core Offerings": "Green bonds, sustainability-linked loans, transition finance, blended finance structures", "Key Deliverables": "Green bond frameworks, KPI-linked pricing models, DFI engagement strategies" },
+];
 
-  const greenEnergyData = [
-    {
-      "Capability Category": "Renewable Energy Projects",
-      "Core Offerings": "Solar, wind, biomass project development and advisory",
-      "Key Deliverables": "Project development plans, feasibility studies",
-    },
-    {
-      "Capability Category": "Energy Storage",
-      "Core Offerings": "Battery storage, thermal storage, hydrogen storage advisory",
-      "Key Deliverables": "Storage system designs, business case analyses",
-    },
-    {
-      "Capability Category": "Green Hydrogen & e-Fuels",
-      "Core Offerings": "Green hydrogen production, e-fuels development, scaling",
-      "Key Deliverables": "Production plans, technical assessments",
-    },
-    {
-      "Capability Category": "Electric Mobility & Charging",
-      "Core Offerings": "EV charging infrastructure, fleet electrification, V2G systems",
-      "Key Deliverables": "Charging network plans, EV fleet strategies",
-    },
-    {
-      "Capability Category": "Grid Modernization",
-      "Core Offerings": "Smart grid solutions, microgrid development, grid integration",
-      "Key Deliverables": "Grid upgrade plans, microgrid designs",
-    },
-    {
-      "Capability Category": "Circular Economy",
-      "Core Offerings": "Lifecycle assessment, recycling programs, resource recovery",
-      "Key Deliverables": "Circular strategies, LCA reports",
-    },
-  ];
+const transactionData: Row[] = [
+  { "Capability Category": "M&A Advisory", "Core Offerings": "Buy-side/sell-side execution, due diligence, valuation, negotiation support", "Key Deliverables": "Teaser documents, information memoranda, valuation models, SPA negotiation" },
+  { "Capability Category": "Capital Raising", "Core Offerings": "Equity placement, debt syndication, private placements, public offerings", "Key Deliverables": "Investor presentations, roadshow materials, subscription agreements" },
+  { "Capability Category": "Tax Equity Advisory", "Core Offerings": "Investor identification, structure optimization, partnership negotiation, portfolio aggregation", "Key Deliverables": "Tax equity term sheets, partnership agreements, portfolio strategies" },
+  { "Capability Category": "Secondary Market Transactions", "Core Offerings": "Asset refinancing, portfolio sales, partial sell-downs, recapitalization", "Key Deliverables": "Asset valuations, market sounding, transaction execution" },
+  { "Capability Category": "Development Capital", "Core Offerings": "Early-stage equity, venture capital, growth capital, project development funds", "Key Deliverables": "Pitch decks, development plans, investor matching" },
+];
 
-  const regulatorySustainabilityData = [
-    {
-      "Capability Category": "Policy & Regulatory Advisory",
-      "Core Offerings": "Compliance strategy, regulatory navigation, advocacy support",
-      "Key Deliverables": "Compliance roadmaps, policy briefs",
-    },
-    {
-      "Capability Category": "ESG Integration",
-      "Core Offerings": "ESG strategy, governance setup, performance targets",
-      "Key Deliverables": "ESG frameworks, governance documentation",
-    },
-    {
-      "Capability Category": "Green Certification",
-      "Core Offerings": "Certifications (B Corp, LEED, etc.), audit support",
-      "Key Deliverables": "Certification applications, audit reports",
-    },
-    {
-      "Capability Category": "Climate Risk & Resilience",
-      "Core Offerings": "TCFD alignment, resilience planning, scenario analysis",
-      "Key Deliverables": "Risk assessments, resilience plans",
-    },
-    {
-      "Capability Category": "Sustainability-Linked Finance",
-      "Core Offerings": "Sustainability-linked instruments, KPI framework, reporting",
-      "Key Deliverables": "KPI frameworks, sustainability reports",
-    },
-  ];
+const commercialData: Row[] = [
+  { "Capability Category": "Offtake Strategy", "Core Offerings": "PPA structuring, CfD negotiation, merchant optimization, corporate PPA advisory", "Key Deliverables": "PPA term sheets, offtake agreements, pricing strategies" },
+  { "Capability Category": "Market Entry & Expansion", "Core Offerings": "Geographic expansion, regulatory navigation, competitive positioning, partnership development", "Key Deliverables": "Market entry strategies, regulatory roadmaps, JV structures" },
+  { "Capability Category": "Revenue Optimization", "Core Offerings": "Merchant revenue modeling, ancillary services, capacity market participation, stacking strategies", "Key Deliverables": "Revenue models, market forecasts, trading strategies" },
+  { "Capability Category": "Supply Chain & Procurement", "Core Offerings": "Equipment procurement, EPC selection, long-term service agreements, supply security", "Key Deliverables": "Procurement strategies, EPC evaluation matrices, LTA negotiations" },
+  { "Capability Category": "Portfolio Management", "Core Offerings": "Asset optimization, performance benchmarking, strategic asset allocation, exit planning", "Key Deliverables": "Portfolio strategies, asset management plans, divestment roadmaps" },
+];
 
-  const projectLifecycleData = [
-    {
-      Phase: "Concept & Early Development",
-      "Advisory Services": "Scoping, feasibility, preliminary design",
-      "Key Activities": "Site identification, resource assessment, business case",
-    },
-    {
-      Phase: "Pre-Construction Development",
-      "Advisory Services": "Engineering, financing, permitting support",
-      "Key Activities": "Detailed design, lender packaging, permit acquisition",
-    },
-    {
-      Phase: "Construction & Commissioning",
-      "Advisory Services": "Construction management, commissioning oversight",
-      "Key Activities": "Quality assurance, testing, system validation",
-    },
-    {
-      Phase: "Operations & Asset Management",
-      "Advisory Services": "O&M optimization, performance monitoring, upgrades",
-      "Key Activities": "Performance tracking, asset maintenance, yield optimization",
-    },
-    {
-      Phase: "End-of-Life & Repowering",
-      "Advisory Services": "Decommissioning, repowering strategies, asset recovery",
-      "Key Activities": "Recycling planning, repowering assessment, value recovery",
-    },
-  ];
+const greenEnergyData: Row[] = [
+  { "Capability Category": "Renewable Energy Projects", "Core Offerings": "Solar, wind, hydro, geothermal development, resource assessment, technology roadmaps", "Key Deliverables": "Resource reports, technology assessments, LCOE analysis" },
+  { "Capability Category": "Energy Storage", "Core Offerings": "Battery storage optimization, hybrid systems, grid services, merchant modeling", "Key Deliverables": "Storage sizing studies, revenue stack models, integration plans" },
+  { "Capability Category": "Green Hydrogen & e-Fuels", "Core Offerings": "Electrolyzer projects, hydrogen offtake, ammonia/methanol integration, industrial decarbonization", "Key Deliverables": "Hydrogen business models, offtake agreements, feasibility studies" },
+  { "Capability Category": "Electric Mobility & Charging", "Core Offerings": "EV charging infrastructure, fleet electrification, V2G integration, charging network design", "Key Deliverables": "Charging strategies, fleet transition plans, grid impact studies" },
+  { "Capability Category": "Grid Modernization", "Core Offerings": "Smart grid, microgrids, distributed energy resources, VPP aggregation, resilience planning", "Key Deliverables": "Grid modernization roadmaps, DER integration plans, resilience assessments" },
+  { "Capability Category": "Circular Economy", "Core Offerings": "Battery recycling, material recovery, second-life applications, end-of-life value capture", "Key Deliverables": "Circular business models, recycling strategies, material flow analysis" },
+];
 
-  const innovativeBusinessModelsData = [
-    {
-      "Model Category": "Energy-as-a-Service",
-      Description: "Pay-per-use energy services with equipment ownership retained",
-      "Advisory Focus": "Service design, customer acquisition, performance guarantees",
-    },
-    {
-      "Model Category": "Infrastructure-as-a-Service",
-      Description: "Cloud-based infrastructure for energy management and monitoring",
-      "Advisory Focus": "Platform development, integration, user experience",
-    },
-    {
-      "Model Category": "Corporate PPAs",
-      Description: "Direct renewable energy procurement by corporates",
-      "Advisory Focus": "PPA structuring, offtaker packaging, revenue optimization",
-    },
-    {
-      "Model Category": "Virtual Power Plants",
-      Description: "Aggregated distributed resources for grid services",
-      "Advisory Focus": "Resource aggregation, grid services, demand response",
-    },
-    {
-      "Model Category": "Vehicle-to-Grid",
-      Description: "EVs as distributed energy assets for grid support",
-      "Advisory Focus": "V2G technology, fleet integration, revenue models",
-    },
-    {
-      "Model Category": "Peer-to-Peer Energy Trading",
-      Description: "Direct energy trading between community participants",
-      "Advisory Focus": "Platform design, regulatory compliance, market mechanisms",
-    },
-    {
-      "Model Category": "Carbon-as-a-Service",
-      Description: "Managed carbon credit aggregation and trading",
-      "Advisory Focus": "Credit sourcing, verification, monetization strategies",
-    },
-  ];
+const regulatoryData: Row[] = [
+  { "Capability Category": "Policy & Regulatory Advisory", "Core Offerings": "Subsidy optimization, incentive navigation, regulatory compliance, legislative tracking", "Key Deliverables": "Regulatory impact assessments, compliance strategies, incentive applications" },
+  { "Capability Category": "ESG Integration", "Core Offerings": "ESG strategy, sustainability reporting, impact measurement, stakeholder engagement", "Key Deliverables": "ESG frameworks, sustainability reports, impact metrics" },
+  { "Capability Category": "Green Certification", "Core Offerings": "Green building certification, carbon accounting, renewable energy certificates, carbon credits", "Key Deliverables": "Certification documentation, carbon footprints, credit verification" },
+  { "Capability Category": "Climate Risk & Resilience", "Core Offerings": "Physical risk assessment, transition risk analysis, TCFD reporting, adaptation strategies", "Key Deliverables": "Climate risk reports, resilience plans, disclosure frameworks" },
+  { "Capability Category": "Sustainability-Linked Finance", "Core Offerings": "KPI development, performance targets, sustainability-linked pricing, green taxonomy alignment", "Key Deliverables": "SLL frameworks, KPI dashboards, taxonomy assessments" },
+];
 
-  const crossCuttingData = [
-    {
-      Capability: "Digital & Data Analytics",
-      Description: "Advanced analytics, AI/ML, real-time monitoring and optimization",
-      Application: "Performance prediction, anomaly detection, system optimization",
-    },
-    {
-      Capability: "Blockchain & Smart Contracts",
-      Description: "Distributed ledger technology for transparent transactions",
-      Application: "Energy trading, ownership verification, automated settlements",
-    },
-    {
-      Capability: "Geospatial Analysis",
-      Description: "Location-based data for site selection and impact modeling",
-      Application: "Resource mapping, suitability analysis, environmental assessment",
-    },
-    {
-      Capability: "Stakeholder Engagement",
-      Description: "Community consultation, stakeholder management, communication",
-      Application: "Community relations, public acceptance, regulatory approval",
-    },
-  ];
+const lifecycleData: Row[] = [
+  { "Phase": "Concept & Early Development", "Advisory Services": "Feasibility, site identification, resource assessment, preliminary economic analysis", "Key Activities": "Go/no-go decisions, development budgets, early partnerships" },
+  { "Phase": "Pre-Construction Development", "Advisory Services": "Permitting, financing, EPC procurement, offtake negotiations, investment decision support", "Key Activities": "Financial close readiness, NTP issuance, construction contracts" },
+  { "Phase": "Construction & Commissioning", "Advisory Services": "Construction monitoring, cost/schedule control, quality assurance, commissioning oversight", "Key Activities": "Mechanical completion, commercial operation, performance testing" },
+  { "Phase": "Operations & Asset Management", "Advisory Services": "Performance optimization, O&M strategy, refinancing, asset life extension", "Key Activities": "Operational excellence, debt service, asset valuation" },
+  { "Phase": "End-of-Life & Repowering", "Advisory Services": "Decommissioning planning, repowering economics, material recovery, site remediation", "Key Activities": "Repowering strategies, recycling contracts, site restoration" },
+];
+
+const innovativeData: Row[] = [
+  { "Model Category": "Energy-as-a-Service (EaaS)", "Description": "Subscription-based energy solutions without capital ownership", "Advisory Focus": "Contract structuring, risk allocation, customer acquisition" },
+  { "Model Category": "Infrastructure-as-a-Service", "Description": "Third-party ownership and operation of critical infrastructure", "Advisory Focus": "Concession models, availability payments, performance standards" },
+  { "Model Category": "Corporate PPAs", "Description": "Long-term renewable energy contracts for corporate offtakers", "Advisory Focus": "PPA structuring, credit assessment, portfolio aggregation" },
+  { "Model Category": "Virtual Power Plants (VPP)", "Description": "Aggregation of distributed energy resources for grid services", "Advisory Focus": "Aggregation platforms, dispatch optimization, revenue pooling" },
+  { "Model Category": "Vehicle-to-Grid (V2G)", "Description": "Bidirectional energy flow from electric vehicles to grid", "Advisory Focus": "Technology integration, grid codes, revenue models" },
+  { "Model Category": "Peer-to-Peer Energy Trading", "Description": "Direct energy transactions between prosumers", "Advisory Focus": "Platform development, regulatory frameworks, settlement systems" },
+  { "Model Category": "Carbon-as-a-Service", "Description": "Subscription-based carbon reduction solutions", "Advisory Focus": "MRV measurement, reporting, and verification, credit issuance" },
+];
+
+const crossCuttingData: Row[] = [
+  { "Capability": "Digital & Data Analytics", "Description": "AI/ML for predictive maintenance, performance optimization, market forecasting, risk modeling", "Application": "Digital twins, predictive analytics, algorithmic trading" },
+  { "Capability": "Blockchain & Smart Contracts", "Description": "Automated settlements, transparent tracking, tokenization of assets", "Application": "REC tracking, carbon credit trading, peer-to-peer transactions" },
+  { "Capability": "Geospatial Analysis", "Description": "Site selection, resource mapping, grid proximity analysis, environmental constraints", "Application": "GIS-based development tools, suitability scoring" },
+  { "Capability": "Stakeholder Engagement", "Description": "Community consultation, indigenous rights, social license to operate, grievance mechanisms", "Application": "Social impact assessments, engagement plans, benefit-sharing agreements" },
+];
+
+/* ─── Main component ──────────────────────────────────────── */
+const ElectricVehicleSection = () => {
+  const [activeId, setActiveId] = useState("ev-section");
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => { if (entry.isIntersecting) setActiveId(entry.target.id); });
+      },
+      { rootMargin: "-30% 0px -60% 0px" }
+    );
+    NAV_ITEMS.forEach(({ id }) => { const el = document.getElementById(id); if (el) observer.observe(el); });
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
-    <section id="electric-vehicle" className="section-padding bg-secondary/30">
+    <section
+      id="offerings"
+      ref={sectionRef}
+      className="section-padding bg-secondary/30 relative overflow-hidden"
+    >
+      {/* Background */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="absolute inset-0 bg-grid-fine opacity-[0.4] pointer-events-none" />
+      <div className="absolute top-40 right-0 w-[600px] h-[600px] bg-primary/4 rounded-full blur-[140px] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="max-w-3xl mb-16">
+
+        {/* ── Section header ── */}
+        <div className="max-w-3xl mb-12">
+          <motion.div className="section-label mb-6" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            Offerings
+          </motion.div>
           <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.05] tracking-tight"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.05 }}
           >
-            Electric Vehicle & Mobility Solutions — <span className="text-primary text-gradient-primary">Transform the Future of Transportation</span>
+            Electric Vehicle & Mobility —{" "}
+            <span className="text-gradient-primary">Transform the Future of Transportation</span>
           </motion.h2>
           <motion.p
             className="text-lg text-muted-foreground leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
           >
-            From EV charging infrastructure and battery solutions to innovative business models and grid integration,
-            we provide end-to-end advisory across the entire electric mobility ecosystem.
-            Our expertise spans technology, finance, regulatory strategy, and sustainable business model design.
+            End-to-end advisory across the full electric mobility and green energy ecosystem — from EV charging
+            infrastructure and battery solutions to innovative business models and grid integration.
           </motion.p>
         </div>
 
-        {/* Part 1: EV Business Models */}
+        {/* ── Quick-jump pill nav ── */}
         <motion.div
-          id="ev-business-models"
-          className="mb-20 scroll-mt-32"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          className="mb-12 -mx-6 px-6 overflow-x-auto"
+          initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
         >
-          <h3 className="text-3xl font-bold mb-8 text-foreground">EV Business Models</h3>
-          <div className="overflow-x-auto rounded-xl bg-card border border-border/50">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-primary/10 border-b border-border/50">
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-primary text-gradient-primary">
-                    Business Model
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-primary text-gradient-primary">
-                    Description
-                  </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-primary text-gradient-primary">
-                    Application
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {evBusinessModels.map((model, idx) => (
-                  <tr
-                    key={idx}
-                    className="border-b border-border/50 hover:bg-secondary/30 transition-colors"
-                  >
-                    <td className="px-6 py-4 text-sm font-medium text-foreground">
-                      {model.model}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-muted-foreground">{model.description}</td>
-                    <td className="px-6 py-4 text-sm text-muted-foreground">{model.application}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
-
-        {/* Part 2: Key Advisory Service Categories */}
-        <motion.div
-          id="key-advisory-services"
-          className="mb-20 scroll-mt-32"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h3 className="text-3xl font-bold mb-8 text-foreground">Key Advisory Service Categories</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {advisoryServices.map((service, idx) => (
-              <motion.div
-                key={idx}
-                className="p-6 rounded-xl bg-card border border-border/50 hover:border-primary/50 transition-all group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
+          <div className="flex gap-2 pb-1 min-w-max">
+            {NAV_ITEMS.map(({ id, label, num }) => (
+              <button
+                key={id}
+                onClick={() => scrollTo(id)}
+                className={`flex-shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-300 border ${activeId === id
+                    ? "bg-primary/15 text-primary border-primary/40 shadow-[0_0_12px_hsl(145_72%_50%/0.2)]"
+                    : "bg-card/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
+                  }`}
               >
-                <div className="flex items-start gap-4">
-                  <ChevronRight className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
-                  <div>
-                    <h4 className="text-lg font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                      {service.category}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">{service.details}</p>
-                  </div>
-                </div>
-              </motion.div>
+                {num !== "✦" && <span className="text-[9px] font-mono opacity-60">{num}</span>}
+                {label}
+              </button>
             ))}
           </div>
         </motion.div>
 
-        {/* Group 1: Technical & Engineering Advisory */}
-        <SectionTable
-          id="technical-engineering"
-          title="Technical & Engineering Advisory"
-          columns={[
-            "Capability Category",
-            "Core Offerings",
-            "Key Deliverables",
-          ]}
-          rows={technicalEngineeringData}
-        />
+        {/* ── Two-column: sticky side-nav + content ── */}
+        <div className="flex gap-10 items-start">
 
-        {/* Group 2: Financial Advisory & Structuring */}
-        <SectionTable
-          id="financial-advisory"
-          title="Financial Advisory & Structuring"
-          columns={[
-            "Capability Category",
-            "Core Offerings",
-            "Key Deliverables",
-          ]}
-          rows={financialAdvisoryData}
-        />
+          {/* Sticky side-nav — xl only */}
+          <aside className="hidden xl:block w-56 flex-shrink-0 sticky top-28 self-start">
+            <div className="p-4 rounded-2xl bg-card/60 border border-border/50 backdrop-blur-sm">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60 mb-3 px-1">On This Page</p>
+              <nav className="flex flex-col gap-0.5">
+                {NAV_ITEMS.map(({ id, label, num }) => (
+                  <button
+                    key={id}
+                    onClick={() => scrollTo(id)}
+                    className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-left text-xs transition-all duration-200 ${activeId === id ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                      }`}
+                  >
+                    <span className={`flex-shrink-0 w-5 text-center text-[9px] font-mono ${activeId === id ? "text-primary" : "opacity-40"}`}>{num}</span>
+                    <span className="leading-snug">{label}</span>
+                    {activeId === id && <span className="ml-auto w-1 h-1 rounded-full bg-primary flex-shrink-0" />}
+                  </button>
+                ))}
+              </nav>
+            </div>
+          </aside>
 
-        {/* Group 3: Transaction & Capital Markets */}
-        <SectionTable
-          id="transaction-capital"
-          title="Transaction & Capital Markets"
-          columns={[
-            "Capability Category",
-            "Core Offerings",
-            "Key Deliverables",
-          ]}
-          rows={transactionCapitalData}
-        />
+          {/* ── Content ── */}
+          <div className="flex-1 min-w-0">
 
-        {/* Group 4: Commercial & Market Strategy */}
-        <SectionTable
-          id="commercial-market"
-          title="Commercial & Market Strategy"
-          columns={[
-            "Capability Category",
-            "Core Offerings",
-            "Key Deliverables",
-          ]}
-          rows={commercialMarketData}
-        />
+            {/* Stats strip */}
+            <motion.div
+              className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 p-6 rounded-2xl bg-card border border-border/50"
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            >
+              {[
+                { label: "Capability Groups", value: "10" },
+                { label: "Business Models", value: "8+" },
+                { label: "Service Categories", value: "50+" },
+                { label: "Sectors Covered", value: "All" },
+              ].map((s) => (
+                <div key={s.label} className="text-center">
+                  <p className="text-2xl font-display font-bold text-primary">{s.value}</p>
+                  <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
+                </div>
+              ))}
+            </motion.div>
 
-        {/* Group 5: Specialized Green Energy Advisory */}
-        <SectionTable
-          id="green-energy"
-          title="Specialized Green Energy Advisory"
-          columns={[
-            "Capability Category",
-            "Core Offerings",
-            "Key Deliverables",
-          ]}
-          rows={greenEnergyData}
-        />
+            {/* ═══ 00 — Electric Vehicle ═══ */}
+            <motion.div
+              id="ev-section"
+              className="scroll-mt-28 mb-20"
+              initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.6 }}
+            >
+              <div className="flex items-start gap-4 mb-7">
+                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary/60 font-mono block mb-1.5">Group 00</span>
+                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">Electric Vehicle</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-2xl">
+                    Eight proven commercial structures powering the electric vehicle and clean energy ecosystem.
+                  </p>
+                </div>
+              </div>
 
-        {/* Group 6: Regulatory, ESG & Sustainability */}
-        <SectionTable
-          id="regulatory-sustainability"
-          title="Regulatory, ESG & Sustainability"
-          columns={[
-            "Capability Category",
-            "Core Offerings",
-            "Key Deliverables",
-          ]}
-          rows={regulatorySustainabilityData}
-        />
+              {/* EV Business Models table */}
+              <div className="overflow-x-auto rounded-2xl border border-border/50 shadow-[0_4px_32px_hsl(220_18%_4%/0.6)] mb-10">
+                <table className="w-full min-w-[620px]">
+                  <thead>
+                    <tr className="bg-primary/10 border-b border-primary/20">
+                      {["Business Model", "Description", "Application"].map((col, i) => (
+                        <th key={i} className="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-widest text-primary whitespace-nowrap">{col}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody className="bg-card/80">
+                    {evBusinessModels.map((row, idx) => (
+                      <tr key={idx} className={`border-b border-border/40 transition-colors hover:bg-primary/5 ${idx === evBusinessModels.length - 1 ? "border-b-0" : ""}`}>
+                        <td className="px-6 py-4 text-sm font-semibold text-foreground align-top leading-relaxed">{row["Business Model"]}</td>
+                        <td className="px-6 py-4 text-sm text-muted-foreground align-top leading-relaxed">{row["Description"]}</td>
+                        <td className="px-6 py-4 text-sm text-muted-foreground align-top leading-relaxed">{row["Application"]}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
-        {/* Group 7: Project Lifecycle Support */}
-        <SectionTable
-          id="project-lifecycle"
-          title="Project Lifecycle Support"
-          columns={["Phase", "Advisory Services", "Key Activities"]}
-          rows={projectLifecycleData}
-        />
+              {/* Key Advisory Services cards */}
+              <h4 className="text-lg font-bold text-foreground mb-4">Key Advisory Service Categories</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {advisoryServices.map((s, i) => (
+                  <motion.div
+                    key={i}
+                    className="group flex items-start gap-4 p-5 rounded-xl bg-card border border-border/50 hover:border-primary/40 transition-all duration-300 card-hover-lift"
+                    initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
+                      <ChevronRight className="w-4 h-4 text-primary" />
+                    </div>
+                    <div>
+                      <h5 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{s.category}</h5>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{s.detail}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
 
-        {/* Group 8: Innovative Business Models */}
-        <SectionTable
-          id="innovative-business-models"
-          title="Innovative Business Models"
-          columns={[
-            "Model Category",
-            "Description",
-            "Advisory Focus",
-          ]}
-          rows={innovativeBusinessModelsData}
-        />
+            {/* ── Capability Groups divider ── */}
+            <div className="flex items-center gap-4 mb-14">
+              <div className="flex-1 h-px bg-gradient-to-r from-primary/30 to-transparent" />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary/60 px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
+                Capability Groups
+              </span>
+              <div className="flex-1 h-px bg-gradient-to-l from-primary/30 to-transparent" />
+            </div>
 
-        {/* Cross-Cutting Capabilities */}
-        <SectionTable
-          id="cross-cutting-capabilities"
-          title="Cross-Cutting Capabilities"
-          columns={["Capability", "Description", "Application"]}
-          rows={crossCuttingData}
-        />
+            {/* ═══ 01 — Technical & Engineering ═══ */}
+            <SectionTable id="technical-engineering" num="01" title="Technical & Engineering Advisory"
+              description="End-to-end engineering support from feasibility through to operational readiness — bridging technical design with commercial deployment."
+              icon={Zap}
+              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+              rows={technicalData}
+            />
+
+            {/* ═══ 02 — Financial Advisory ═══ */}
+            <SectionTable id="financial-advisory" num="02" title="Financial Advisory & Structuring"
+              description="We build the financial models and structures that make climate infrastructure bankable, defensible, and attractive to institutional capital."
+              icon={BarChart3}
+              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+              rows={financialData}
+            />
+
+            {/* ═══ 03 — Transaction & Capital ═══ */}
+            <SectionTable id="transaction-capital" num="03" title="Transaction & Capital Markets"
+              description="Facilitating investment flows into clean energy through M&A, capital raising, tax equity, and secondary market expertise."
+              icon={TrendingUp}
+              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+              rows={transactionData}
+            />
+
+            {/* ═══ 04 — Commercial & Market ═══ */}
+            <SectionTable id="commercial-market" num="04" title="Commercial & Market Strategy"
+              description="Positioning your assets and services for maximum commercial yield — from offtake to portfolio optimisation."
+              icon={ShoppingCart}
+              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+              rows={commercialData}
+            />
+
+            {/* ═══ 05 — Specialized Green Energy ═══ */}
+            <SectionTable id="green-energy" num="05" title="Specialized Green Energy Advisory"
+              description="Deep technical advisory across the full green energy technology stack — from solar and storage to hydrogen and grid modernisation."
+              icon={Leaf}
+              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+              rows={greenEnergyData}
+            />
+
+            {/* ═══ 06 — Regulatory, ESG & Sustainability ═══ */}
+            <SectionTable id="regulatory-sustainability" num="06" title="Regulatory, ESG & Sustainability"
+              description="Navigating disclosure requirements, certification standards, and climate risk frameworks with precision."
+              icon={Shield}
+              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+              rows={regulatoryData}
+            />
+
+            {/* ═══ 07 — Project Lifecycle ═══ */}
+            <SectionTable id="project-lifecycle" num="07" title="Project Lifecycle Support"
+              description="Continuous advisory presence from first concept through to decommissioning — ensuring value creation at every stage."
+              icon={Layers}
+              columns={["Phase", "Advisory Services", "Key Activities"]}
+              rows={lifecycleData}
+            />
+
+            {/* ═══ 08 — Innovative Business Models ═══ */}
+            <SectionTable id="innovative-business-models" num="08" title="Innovative Business Models"
+              description="Designing and structuring next-generation revenue models that monetise clean energy assets in novel ways."
+              icon={Lightbulb}
+              columns={["Model Category", "Description", "Advisory Focus"]}
+              rows={innovativeData}
+            />
+
+            {/* ── Cross-Cutting divider ── */}
+            <div className="flex items-center gap-4 mb-14">
+              <div className="flex-1 h-px bg-gradient-to-r from-primary/30 to-transparent" />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary/60 px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
+                Cross-Cutting
+              </span>
+              <div className="flex-1 h-px bg-gradient-to-l from-primary/30 to-transparent" />
+            </div>
+
+            {/* ═══ Cross-Cutting Capabilities ═══ */}
+            <SectionTable id="cross-cutting-capabilities" num="✦" title="Cross-Cutting Capabilities"
+              description="Digital, analytical, and engagement capabilities embedded across every group — amplifying every engagement."
+              icon={Cpu}
+              columns={["Capability", "Description", "Application"]}
+              rows={crossCuttingData}
+            />
+
+            {/* Bottom CTA */}
+            <motion.div
+              className="mt-4 p-8 rounded-2xl border border-primary/25 bg-primary/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            >
+              <div>
+                <p className="font-bold text-lg mb-1">Ready to start your EV & Mobility journey?</p>
+                <p className="text-sm text-muted-foreground max-w-md">Talk to our specialists — we'll match you with the right advisory combination for your goals.</p>
+              </div>
+              <a
+                href="#contact"
+                className="flex-shrink-0 inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/25"
+              >
+                Get Expert Advice <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
