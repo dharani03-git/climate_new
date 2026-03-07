@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ICPPage from "./pages/ICP";
+import OfferingsPage from "./pages/OfferingsPage";
 import { useEffect } from "react";
 import { useAnalyticsTracking } from "./hooks/useAnalyticsTracking";
 
@@ -28,6 +29,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/icp" element={<ICPPage />} />
+            <Route path="/offerings" element={<OfferingsPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
