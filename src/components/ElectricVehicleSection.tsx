@@ -236,20 +236,7 @@ const ElectricVehicleSection = () => {
           </motion.p>
         </div>
 
-        {/* EV Image Banner */}
-        <motion.div
-          className="w-full mb-10 rounded-2xl overflow-hidden relative h-52 md:h-72 shadow-[0_8px_40px_hsl(145_72%_50%/0.15)]"
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15, duration: 0.7 }}
-        >
-          <img src="/ev_charging.png" alt="Electric Vehicle Charging Infrastructure" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/10 to-black/60" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <p className="text-white/80 text-sm font-mono uppercase tracking-[0.3em]">Electric Mobility & Clean Energy Ecosystem</p>
-          </div>
-        </motion.div>
+
         <motion.div
           className="mb-12 -mx-6 px-6 overflow-x-auto"
           initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
@@ -271,220 +258,195 @@ const ElectricVehicleSection = () => {
           </div>
         </motion.div>
 
-        {/* ── Two-column: sticky side-nav + content ── */}
-        <div className="flex gap-10 items-start">
+        {/* ── Content ── */}
+        <div className="w-full">
 
-          {/* Sticky side-nav — xl only */}
-          <aside className="hidden xl:block w-56 flex-shrink-0 sticky top-28 self-start">
-            <div className="p-4 rounded-2xl bg-card/60 border border-border/50 backdrop-blur-sm">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-primary/60 mb-3 px-1">On This Page</p>
-              <nav className="flex flex-col gap-0.5">
-                {NAV_ITEMS.map(({ id, label, num }) => (
-                  <button
-                    key={id}
-                    onClick={() => scrollTo(id)}
-                    className={`flex items-center gap-2.5 px-3 py-2 rounded-xl text-left text-xs transition-all duration-200 ${activeId === id ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-                      }`}
-                  >
-                    <span className={`flex-shrink-0 w-5 text-center text-[9px] font-mono ${activeId === id ? "text-primary" : "opacity-40"}`}>{num}</span>
-                    <span className="leading-snug">{label}</span>
-                    {activeId === id && <span className="ml-auto w-1 h-1 rounded-full bg-primary flex-shrink-0" />}
-                  </button>
-                ))}
-              </nav>
-            </div>
-          </aside>
-
-          {/* ── Content ── */}
-          <div className="flex-1 min-w-0">
-
-            {/* Stats strip */}
-            <motion.div
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 p-6 rounded-2xl bg-card border border-border/50"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            >
-              {[
-                { label: "Capability Groups", value: "10" },
-                { label: "Business Models", value: "8+" },
-                { label: "Service Categories", value: "50+" },
-                { label: "Sectors Covered", value: "All" },
-              ].map((s) => (
-                <div key={s.label} className="text-center">
-                  <p className="text-2xl font-display font-bold text-primary">{s.value}</p>
-                  <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* ═══ 00 — Electric Vehicle ═══ */}
-            <motion.div
-              id="ev-section"
-              className="scroll-mt-28 mb-20"
-              initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.6 }}
-            >
-              <div className="flex items-start gap-4 mb-7">
-                <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-primary/60 font-mono block mb-1.5">Group 00</span>
-                  <h3 className="text-2xl md:text-3xl font-bold text-foreground">Electric Vehicle</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-2xl">
-                    Eight proven commercial structures powering the electric vehicle and clean energy ecosystem.
-                  </p>
-                </div>
+          {/* Stats strip */}
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 p-6 rounded-2xl bg-card border border-border/50"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          >
+            {[
+              { label: "Capability Groups", value: "10" },
+              { label: "Business Models", value: "8+" },
+              { label: "Service Categories", value: "50+" },
+              { label: "Sectors Covered", value: "All" },
+            ].map((s) => (
+              <div key={s.label} className="text-center">
+                <p className="text-2xl font-display font-bold text-primary">{s.value}</p>
+                <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
               </div>
+            ))}
+          </motion.div>
 
-              {/* EV Business Models table */}
-              <div className="overflow-x-auto rounded-2xl border border-border/50 shadow-[0_4px_32px_hsl(220_18%_4%/0.6)] mb-10">
-                <table className="w-full min-w-[620px]">
-                  <thead>
-                    <tr className="bg-primary/10 border-b border-primary/20">
-                      {["Business Model", "Description", "Application"].map((col, i) => (
-                        <th key={i} className="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-widest text-primary whitespace-nowrap">{col}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="bg-card/80">
-                    {evBusinessModels.map((row, idx) => (
-                      <tr key={idx} className={`border-b border-border/40 transition-colors hover:bg-primary/5 ${idx === evBusinessModels.length - 1 ? "border-b-0" : ""}`}>
-                        <td className="px-6 py-4 text-sm font-semibold text-foreground align-top leading-relaxed">{row["Business Model"]}</td>
-                        <td className="px-6 py-4 text-sm text-muted-foreground align-top leading-relaxed">{row["Description"]}</td>
-                        <td className="px-6 py-4 text-sm text-muted-foreground align-top leading-relaxed">{row["Application"]}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+          {/* ═══ 00 — Electric Vehicle ═══ */}
+          <motion.div
+            id="ev-section"
+            className="scroll-mt-28 mb-20"
+            initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-start gap-4 mb-7">
+              <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                <Zap className="w-5 h-5 text-primary" />
               </div>
-
-              {/* Key Advisory Services cards */}
-              <h4 className="text-lg font-bold text-foreground mb-4">Key Advisory Service Categories</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {advisoryServices.map((s, i) => (
-                  <motion.div
-                    key={i}
-                    className="group flex items-start gap-4 p-5 rounded-xl bg-card border border-border/50 hover:border-primary/40 transition-all duration-300 card-hover-lift"
-                    initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
-                  >
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
-                      <ChevronRight className="w-4 h-4 text-primary" />
-                    </div>
-                    <div>
-                      <h5 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{s.category}</h5>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{s.detail}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* ── Capability Groups divider ── */}
-            <div className="flex items-center gap-4 mb-14">
-              <div className="flex-1 h-px bg-gradient-to-r from-primary/30 to-transparent" />
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary/60 px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
-                Capability Groups
-              </span>
-              <div className="flex-1 h-px bg-gradient-to-l from-primary/30 to-transparent" />
-            </div>
-
-            {/* ═══ 01 — Technical & Engineering ═══ */}
-            <SectionTable id="technical-engineering" num="01" title="Technical & Engineering Advisory"
-              description="End-to-end engineering support from feasibility through to operational readiness — bridging technical design with commercial deployment."
-              icon={Zap}
-              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
-              rows={technicalData}
-            />
-
-            {/* ═══ 02 — Financial Advisory ═══ */}
-            <SectionTable id="financial-advisory" num="02" title="Financial Advisory & Structuring"
-              description="We build the financial models and structures that make climate infrastructure bankable, defensible, and attractive to institutional capital."
-              icon={BarChart3}
-              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
-              rows={financialData}
-            />
-
-            {/* ═══ 03 — Transaction & Capital ═══ */}
-            <SectionTable id="transaction-capital" num="03" title="Transaction & Capital Markets"
-              description="Facilitating investment flows into clean energy through M&A, capital raising, tax equity, and secondary market expertise."
-              icon={TrendingUp}
-              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
-              rows={transactionData}
-            />
-
-            {/* ═══ 04 — Commercial & Market ═══ */}
-            <SectionTable id="commercial-market" num="04" title="Commercial & Market Strategy"
-              description="Positioning your assets and services for maximum commercial yield — from offtake to portfolio optimisation."
-              icon={ShoppingCart}
-              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
-              rows={commercialData}
-            />
-
-            {/* ═══ 05 — Specialized Green Energy ═══ */}
-            <SectionTable id="green-energy" num="05" title="Specialized Green Energy Advisory"
-              description="Deep technical advisory across the full green energy technology stack — from solar and storage to hydrogen and grid modernisation."
-              icon={Leaf}
-              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
-              rows={greenEnergyData}
-            />
-
-            {/* ═══ 06 — Regulatory, ESG & Sustainability ═══ */}
-            <SectionTable id="regulatory-sustainability" num="06" title="Regulatory, ESG & Sustainability"
-              description="Navigating disclosure requirements, certification standards, and climate risk frameworks with precision."
-              icon={Shield}
-              columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
-              rows={regulatoryData}
-            />
-
-            {/* ═══ 07 — Project Lifecycle ═══ */}
-            <SectionTable id="project-lifecycle" num="07" title="Project Lifecycle Support"
-              description="Continuous advisory presence from first concept through to decommissioning — ensuring value creation at every stage."
-              icon={Layers}
-              columns={["Phase", "Advisory Services", "Key Activities"]}
-              rows={lifecycleData}
-            />
-
-            {/* ═══ 08 — Innovative Business Models ═══ */}
-            <SectionTable id="innovative-business-models" num="08" title="Innovative Business Models"
-              description="Designing and structuring next-generation revenue models that monetise clean energy assets in novel ways."
-              icon={Lightbulb}
-              columns={["Model Category", "Description", "Advisory Focus"]}
-              rows={innovativeData}
-            />
-
-            {/* ── Cross-Cutting divider ── */}
-            <div className="flex items-center gap-4 mb-14">
-              <div className="flex-1 h-px bg-gradient-to-r from-primary/30 to-transparent" />
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary/60 px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
-                Cross-Cutting
-              </span>
-              <div className="flex-1 h-px bg-gradient-to-l from-primary/30 to-transparent" />
-            </div>
-
-            {/* ═══ Cross-Cutting Capabilities ═══ */}
-            <SectionTable id="cross-cutting-capabilities" num="✦" title="Cross-Cutting Capabilities"
-              description="Digital, analytical, and engagement capabilities embedded across every group — amplifying every engagement."
-              icon={Cpu}
-              columns={["Capability", "Description", "Application"]}
-              rows={crossCuttingData}
-            />
-
-            {/* Bottom CTA */}
-            <motion.div
-              className="mt-4 p-8 rounded-2xl border border-primary/25 bg-primary/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            >
               <div>
-                <p className="font-bold text-lg mb-1">Ready to start your EV & Mobility journey?</p>
-                <p className="text-sm text-muted-foreground max-w-md">Talk to our specialists — we'll match you with the right advisory combination for your goals.</p>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-primary/60 font-mono block mb-1.5">Group 00</span>
+                <h3 className="text-2xl md:text-3xl font-bold text-foreground">Electric Vehicle</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed max-w-2xl">
+                  Eight proven commercial structures powering the electric vehicle and clean energy ecosystem.
+                </p>
               </div>
-              <a
-                href="#contact"
-                className="flex-shrink-0 inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/25"
-              >
-                Get Expert Advice <ArrowUpRight className="w-4 h-4" />
-              </a>
-            </motion.div>
+            </div>
+
+            {/* EV Business Models table */}
+            <div className="overflow-x-auto rounded-2xl border border-border/50 shadow-[0_4px_32px_hsl(220_18%_4%/0.6)] mb-10">
+              <table className="w-full min-w-[620px]">
+                <thead>
+                  <tr className="bg-primary/10 border-b border-primary/20">
+                    {["Business Model", "Description", "Application"].map((col, i) => (
+                      <th key={i} className="px-6 py-3.5 text-left text-xs font-bold uppercase tracking-widest text-primary whitespace-nowrap">{col}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="bg-card/80">
+                  {evBusinessModels.map((row, idx) => (
+                    <tr key={idx} className={`border-b border-border/40 transition-colors hover:bg-primary/5 ${idx === evBusinessModels.length - 1 ? "border-b-0" : ""}`}>
+                      <td className="px-6 py-4 text-sm font-semibold text-foreground align-top leading-relaxed">{row["Business Model"]}</td>
+                      <td className="px-6 py-4 text-sm text-muted-foreground align-top leading-relaxed">{row["Description"]}</td>
+                      <td className="px-6 py-4 text-sm text-muted-foreground align-top leading-relaxed">{row["Application"]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Key Advisory Services cards */}
+            <h4 className="text-lg font-bold text-foreground mb-4">Key Advisory Service Categories</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {advisoryServices.map((s, i) => (
+                <motion.div
+                  key={i}
+                  className="group flex items-start gap-4 p-5 rounded-xl bg-card border border-border/50 hover:border-primary/40 transition-all duration-300 card-hover-lift"
+                  initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+                >
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-primary/20 transition-colors">
+                    <ChevronRight className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <h5 className="text-sm font-semibold text-foreground mb-1 group-hover:text-primary transition-colors">{s.category}</h5>
+                    <p className="text-xs text-muted-foreground leading-relaxed">{s.detail}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* ── Capability Groups divider ── */}
+          <div className="flex items-center gap-4 mb-14">
+            <div className="flex-1 h-px bg-gradient-to-r from-primary/30 to-transparent" />
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary/60 px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
+              Capability Groups
+            </span>
+            <div className="flex-1 h-px bg-gradient-to-l from-primary/30 to-transparent" />
           </div>
+
+          {/* ═══ 01 — Technical & Engineering ═══ */}
+          <SectionTable id="technical-engineering" num="01" title="Technical & Engineering Advisory"
+            description="End-to-end engineering support from feasibility through to operational readiness — bridging technical design with commercial deployment."
+            icon={Zap}
+            columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+            rows={technicalData}
+          />
+
+          {/* ═══ 02 — Financial Advisory ═══ */}
+          <SectionTable id="financial-advisory" num="02" title="Financial Advisory & Structuring"
+            description="We build the financial models and structures that make climate infrastructure bankable, defensible, and attractive to institutional capital."
+            icon={BarChart3}
+            columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+            rows={financialData}
+          />
+
+          {/* ═══ 03 — Transaction & Capital ═══ */}
+          <SectionTable id="transaction-capital" num="03" title="Transaction & Capital Markets"
+            description="Facilitating investment flows into clean energy through M&A, capital raising, tax equity, and secondary market expertise."
+            icon={TrendingUp}
+            columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+            rows={transactionData}
+          />
+
+          {/* ═══ 04 — Commercial & Market ═══ */}
+          <SectionTable id="commercial-market" num="04" title="Commercial & Market Strategy"
+            description="Positioning your assets and services for maximum commercial yield — from offtake to portfolio optimisation."
+            icon={ShoppingCart}
+            columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+            rows={commercialData}
+          />
+
+          {/* ═══ 05 — Specialized Green Energy ═══ */}
+          <SectionTable id="green-energy" num="05" title="Specialized Green Energy Advisory"
+            description="Deep technical advisory across the full green energy technology stack — from solar and storage to hydrogen and grid modernisation."
+            icon={Leaf}
+            columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+            rows={greenEnergyData}
+          />
+
+          {/* ═══ 06 — Regulatory, ESG & Sustainability ═══ */}
+          <SectionTable id="regulatory-sustainability" num="06" title="Regulatory, ESG & Sustainability"
+            description="Navigating disclosure requirements, certification standards, and climate risk frameworks with precision."
+            icon={Shield}
+            columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
+            rows={regulatoryData}
+          />
+
+          {/* ═══ 07 — Project Lifecycle ═══ */}
+          <SectionTable id="project-lifecycle" num="07" title="Project Lifecycle Support"
+            description="Continuous advisory presence from first concept through to decommissioning — ensuring value creation at every stage."
+            icon={Layers}
+            columns={["Phase", "Advisory Services", "Key Activities"]}
+            rows={lifecycleData}
+          />
+
+          {/* ═══ 08 — Innovative Business Models ═══ */}
+          <SectionTable id="innovative-business-models" num="08" title="Innovative Business Models"
+            description="Designing and structuring next-generation revenue models that monetise clean energy assets in novel ways."
+            icon={Lightbulb}
+            columns={["Model Category", "Description", "Advisory Focus"]}
+            rows={innovativeData}
+          />
+
+          {/* ── Cross-Cutting divider ── */}
+          <div className="flex items-center gap-4 mb-14">
+            <div className="flex-1 h-px bg-gradient-to-r from-primary/30 to-transparent" />
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary/60 px-3 py-1 rounded-full border border-primary/20 bg-primary/5">
+              Cross-Cutting
+            </span>
+            <div className="flex-1 h-px bg-gradient-to-l from-primary/30 to-transparent" />
+          </div>
+
+          {/* ═══ Cross-Cutting Capabilities ═══ */}
+          <SectionTable id="cross-cutting-capabilities" num="✦" title="Cross-Cutting Capabilities"
+            description="Digital, analytical, and engagement capabilities embedded across every group — amplifying every engagement."
+            icon={Cpu}
+            columns={["Capability", "Description", "Application"]}
+            rows={crossCuttingData}
+          />
+
+          {/* Bottom CTA */}
+          <motion.div
+            className="mt-4 p-8 rounded-2xl border border-primary/25 bg-primary/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+          >
+            <div>
+              <p className="font-bold text-lg mb-1">Ready to start your EV & Mobility journey?</p>
+              <p className="text-sm text-muted-foreground max-w-md">Talk to our specialists — we'll match you with the right advisory combination for your goals.</p>
+            </div>
+            <a
+              href="#contact"
+              className="flex-shrink-0 inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-primary text-primary-foreground font-semibold text-sm hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-primary/25"
+            >
+              Get Expert Advice <ArrowUpRight className="w-4 h-4" />
+            </a>
+          </motion.div>
         </div>
       </div>
     </section>

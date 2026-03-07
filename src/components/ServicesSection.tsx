@@ -150,26 +150,7 @@ const ServicesSection = () => {
           </motion.p>
         </div>
 
-        {/* Climate Image Banner */}
-        <motion.div
-          className="w-full mb-14 rounded-2xl overflow-hidden relative h-48 md:h-64 shadow-[0_8px_40px_hsl(145_72%_50%/0.15)]"
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15, duration: 0.7 }}
-        >
-          <img
-            src="/green_energy.png"
-            alt="Green Energy — Solar farm and wind turbines"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-black/60" />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <p className="text-white/80 text-sm font-mono uppercase tracking-[0.3em]">
-              Powering the Net-Zero Economy
-            </p>
-          </div>
-        </motion.div>
+
 
         {/* Services list */}
         <div className="space-y-1">
