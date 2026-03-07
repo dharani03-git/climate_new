@@ -238,7 +238,7 @@ const ElectricVehicleSection = () => {
 
 
         <motion.div
-          className="mb-12 -mx-6 px-6 overflow-x-auto scrollbar-pill"
+          className="mb-12 -mx-6 px-6 overflow-x-auto scrollbar-hide"
           initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
         >
           <div className="flex gap-2 pb-1 min-w-max">
