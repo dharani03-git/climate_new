@@ -46,7 +46,7 @@ const PartnersSection = () => {
 
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header */}
-                <div className="max-w-3xl mb-16">
+                <div className="max-w-3xl mx-auto text-center mb-16">
                     <motion.div
                         className="section-label mb-6"
                         initial={{ opacity: 0, y: 10 }}

@@ -216,8 +216,8 @@ const ElectricVehicleSection = () => {
       <div className="max-w-7xl mx-auto">
 
         {/* ── Section header ── */}
-        <div className="max-w-3xl mb-12">
-          <motion.div className="section-label mb-6" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+        <div className="max-w-3xl mx-auto text-center mb-10">
+          <motion.div className="section-label mb-6 mx-auto" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             Offerings
           </motion.div>
           <motion.h2
@@ -236,7 +236,20 @@ const ElectricVehicleSection = () => {
           </motion.p>
         </div>
 
-        {/* ── Quick-jump pill nav ── */}
+        {/* EV Image Banner */}
+        <motion.div
+          className="w-full mb-10 rounded-2xl overflow-hidden relative h-52 md:h-72 shadow-[0_8px_40px_hsl(145_72%_50%/0.15)]"
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15, duration: 0.7 }}
+        >
+          <img src="/ev_charging.png" alt="Electric Vehicle Charging Infrastructure" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/10 to-black/60" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <p className="text-white/80 text-sm font-mono uppercase tracking-[0.3em]">Electric Mobility & Clean Energy Ecosystem</p>
+          </div>
+        </motion.div>
         <motion.div
           className="mb-12 -mx-6 px-6 overflow-x-auto"
           initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.15 }}
@@ -247,8 +260,8 @@ const ElectricVehicleSection = () => {
                 key={id}
                 onClick={() => scrollTo(id)}
                 className={`flex-shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold transition-all duration-300 border ${activeId === id
-                    ? "bg-primary/15 text-primary border-primary/40 shadow-[0_0_12px_hsl(145_72%_50%/0.2)]"
-                    : "bg-card/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
+                  ? "bg-primary/15 text-primary border-primary/40 shadow-[0_0_12px_hsl(145_72%_50%/0.2)]"
+                  : "bg-card/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
                   }`}
               >
                 {num !== "✦" && <span className="text-[9px] font-mono opacity-60">{num}</span>}

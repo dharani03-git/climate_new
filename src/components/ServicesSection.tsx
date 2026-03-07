@@ -117,10 +117,10 @@ const ServicesSection = () => {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
-        <div className="max-w-3xl mb-20">
+        {/* Header - Centered */}
+        <div className="max-w-3xl mx-auto text-center mb-10">
           <motion.div
-            className="section-label mb-6"
+            className="section-label mb-6 mx-auto"
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -149,6 +149,27 @@ const ServicesSection = () => {
             navigate the energy transition with confidence and credibility.
           </motion.p>
         </div>
+
+        {/* Climate Image Banner */}
+        <motion.div
+          className="w-full mb-14 rounded-2xl overflow-hidden relative h-48 md:h-64 shadow-[0_8px_40px_hsl(145_72%_50%/0.15)]"
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.15, duration: 0.7 }}
+        >
+          <img
+            src="/green_energy.png"
+            alt="Green Energy — Solar farm and wind turbines"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-black/60" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <p className="text-white/80 text-sm font-mono uppercase tracking-[0.3em]">
+              Powering the Net-Zero Economy
+            </p>
+          </div>
+        </motion.div>
 
         {/* Services list */}
         <div className="space-y-1">
