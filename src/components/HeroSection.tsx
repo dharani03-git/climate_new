@@ -97,7 +97,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative w-full h-screen pt-20 flex flex-col overflow-hidden">
+    <section className="relative w-full min-h-screen pt-20 flex flex-col">
       {/* ── Background images ── */}
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
@@ -206,8 +206,8 @@ const HeroSection = () => {
                 key={i}
                 onClick={() => { goTo(i); setIsAutoPlaying(false); }}
                 className={`rounded-full transition-all duration-500 ${i === current
-                    ? "w-8 h-2 bg-primary shadow-[0_0_10px_hsl(145_72%_50%/0.6)]"
-                    : "w-2 h-2 bg-white/25 hover:bg-white/50"
+                  ? "w-8 h-2 bg-primary shadow-[0_0_10px_hsl(145_72%_50%/0.6)]"
+                  : "w-2 h-2 bg-white/25 hover:bg-white/50"
                   }`}
                 aria-label={`Go to slide ${i + 1}`}
               />
@@ -236,21 +236,21 @@ const HeroSection = () => {
 
       {/* ── Stats bar ── */}
       <div className="relative z-20 border-t border-white/8">
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-xl" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-24 py-5 grid grid-cols-3 gap-6">
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-xl" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-24 py-7 grid grid-cols-3 gap-6">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 + i * 0.1 }}
-              className="group cursor-default"
+              className="group cursor-default flex flex-col items-start"
             >
-              <p className="text-xl md:text-2xl lg:text-3xl font-display font-bold text-primary group-hover:neon-text transition-all"
-                style={{ textShadow: "0 0 20px hsl(145 72% 50% / 0.3)" }}>
+              <p className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-primary group-hover:neon-text transition-all"
+                style={{ textShadow: "0 0 20px hsl(145 72% 50% / 0.4)" }}>
                 {stat.value}
               </p>
-              <p className="text-[10px] md:text-xs text-white/40 uppercase tracking-wider mt-0.5">
+              <p className="text-[11px] md:text-xs text-white/50 uppercase tracking-wider mt-1">
                 {stat.label}
               </p>
             </motion.div>
