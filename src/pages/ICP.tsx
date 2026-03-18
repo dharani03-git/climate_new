@@ -196,7 +196,7 @@ const ICPPage = () => {
                         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
                             Our work is most impactful when it meets the right organisation at the right moment.
                             If you are deploying capital, developing infrastructure, managing energy, or accountable
-                            for your organisation's climate performance — you are who we built Nexus Climate Craft for.
+                            for your organisation's climate performance — you are who we built Trustgrid.in for.
                         </p>
                     </motion.div>
                 </div>
@@ -213,8 +213,8 @@ const ICPPage = () => {
                                     key={p.id}
                                     onClick={() => setActiveIndex(i)}
                                     className={`px-5 py-3.5 text-sm font-medium whitespace-nowrap border-b-2 transition-all ${i === activeIndex
-                                            ? "border-primary text-primary"
-                                            : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
+                                        ? "border-primary text-primary"
+                                        : "border-transparent text-muted-foreground hover:text-foreground hover:border-border"
                                         }`}
                                 >
                                     <span className="text-xs text-primary/50 mr-2 font-mono">
@@ -281,7 +281,7 @@ const ICPPage = () => {
                                         <div className="flex items-center gap-2 mb-5">
                                             <CheckCircle className="w-4 h-4 text-primary" />
                                             <p className="text-xs font-semibold uppercase tracking-widest text-primary">
-                                                How Nexus Climate Craft Helps
+                                                How Trustgrid.in Helps
                                             </p>
                                         </div>
                                         <ul className="space-y-4">

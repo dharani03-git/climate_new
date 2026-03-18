@@ -16,7 +16,7 @@ const helpOptions = [
 
 const contactDetails = [
     { icon: MapPin, label: "Headquarters", value: "25 Green Lane, London EC2A 3AE, United Kingdom" },
-    { icon: Mail, label: "Email", value: "hello@nexusclimate.craft" },
+    { icon: Mail, label: "Email", value: "hello@trustgrid.in" },
     { icon: Phone, label: "Phone", value: "+44 20 7123 4567" },
     { icon: Globe, label: "Global Offices", value: "London · New York · Singapore · Nairobi · Sydney" },
     { icon: Clock, label: "Response Time", value: "We respond to all enquiries within 24 business hours" },

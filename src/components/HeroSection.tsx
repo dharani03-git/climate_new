@@ -97,7 +97,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative w-full min-h-screen pt-20 flex flex-col">
+    <section className="relative w-full h-[100dvh] min-h-[600px] pt-20 flex flex-col overflow-hidden">
       {/* ── Background images ── */}
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
@@ -141,26 +141,17 @@ const HeroSection = () => {
 
       {/* ── Main content ── */}
       <div className="relative z-10 flex-1 flex items-center justify-center">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 w-full flex justify-center">
-          <AnimatePresence mode="wait">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-24 w-full relative h-[380px] lg:h-[460px] flex items-center justify-center">
+          <AnimatePresence>
             <motion.div
               key={current}
-              initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -20, filter: "blur(4px)" }}
-              transition={{ duration: 0.65, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-4xl text-center flex flex-col items-center"
+              initial={{ opacity: 0, y: 30, scale: 0.98, filter: "blur(10px)" }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -30, scale: 1.02, filter: "blur(10px)" }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute w-full max-w-4xl mx-auto text-center flex flex-col items-center px-4"
             >
-              {/* Slide counter badge */}
-              <motion.div
-                className="mb-6 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/8 backdrop-blur-sm border border-white/15 text-white/60 text-xs font-mono"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                {String(current + 1).padStart(2, "0")} of {String(slides.length).padStart(2, "0")}
-              </motion.div>
+              {/* Slide counter badge removed per user request */}
 
               <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-[0.93] tracking-tight mb-6 text-white"
                 style={{ textShadow: "0 2px 40px rgba(0,0,0,0.5)" }}>

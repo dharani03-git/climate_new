@@ -65,7 +65,7 @@ const Footer = () => {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
               <span className="font-display font-bold text-lg uppercase text-foreground tracking-tight">
-                Nexus Climate <span className="text-primary">Craft</span>
+                Trustgrid<span className="text-primary">.in</span>
               </span>
             </a>
 
@@ -136,7 +136,7 @@ const Footer = () => {
         {/* Bottom strip */}
         <div className="border-t border-border/40 py-7 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted-foreground/70">
-            © {currentYear} Nexus Climate Craft Ltd. All rights reserved.
+            © {currentYear} Trustgrid.in Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((item) => (

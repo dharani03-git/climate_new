@@ -57,7 +57,7 @@ const AboutSection = () => {
                         <div className="section-label mb-6">About Us</div>
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.05] tracking-tight">
                             We Are{" "}
-                            <span className="text-gradient-primary">Nexus Climate Craft</span>
+                            <span className="text-gradient-primary">Trustgrid.in</span>
                         </h2>
 
                         {/* Stats row */}
@@ -83,7 +83,7 @@ const AboutSection = () => {
                         transition={{ delay: 0.1, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
                     >
                         <p>
-                            Nexus Climate Craft was founded by climate scientists and business strategists who believed
+                            Trustgrid.in was founded by climate scientists and business strategists who believed
                             something radical: that sustainability and commercial success are not just compatible —
                             they are inseparable. Frustrated by the gap between climate ambition and climate action in
                             the corporate world, our founders set out to build a firm that bridged science, strategy,
@@ -229,7 +229,7 @@ const AboutSection = () => {
                     <div className="pl-6 flex items-center gap-4 relative z-10">
                         <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-sm font-bold text-primary">MP</div>
                         <p className="text-muted-foreground font-medium">
-                            Dr. Maya Patel — <span className="text-foreground">Founder & CEO, Nexus Climate Craft</span>
+                            Dr. Maya Patel — <span className="text-foreground">Founder & CEO, Trustgrid.in</span>
                         </p>
                     </div>
                 </motion.div>

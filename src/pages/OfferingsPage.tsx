@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import {
-  Zap, BarChart3, TrendingUp, ShoppingCart, Leaf,
+  Zap, BarChart3, TrendingUp, ShoppingCart, Leaf, FlaskConical, Battery,
   Shield, Layers, Lightbulb, Cpu, ChevronRight, ArrowUpRight,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import VCFSection from "@/components/vcf/VCFSection";
 
 /* ─── Scroll-spy nav ────────────────────────────────────── */
 const NAV_ITEMS = [
@@ -15,9 +16,12 @@ const NAV_ITEMS = [
   { id: "transaction-capital", label: "Transaction & Capital Markets", num: "03" },
   { id: "commercial-market", label: "Commercial & Market Strategy", num: "04" },
   { id: "green-energy", label: "Specialized Green Energy Advisory", num: "05" },
-  { id: "regulatory-sustainability", label: "Regulatory, ESG & Sustainability", num: "06" },
-  { id: "project-lifecycle", label: "Project Lifecycle Support", num: "07" },
-  { id: "innovative-business-models", label: "Innovative Business Models", num: "08" },
+  { id: "hydrogen-advisory", label: "Hydrogen Fuel Advisory & Services", num: "06" },
+  { id: "battery-advisory", label: "Battery Technology & Fuel Cell Advisory", num: "07" },
+  { id: "regulatory-sustainability", label: "Regulatory, ESG & Sustainability", num: "08" },
+  { id: "project-lifecycle", label: "Project Lifecycle Support", num: "09" },
+  { id: "innovative-business-models", label: "Innovative Business Models", num: "10" },
+  { id: "vcf-section", label: "VCF for Climate Infrastructure", num: "11" },
   { id: "cross-cutting-capabilities", label: "Cross-Cutting Capabilities", num: "✦" },
 ];
 
@@ -149,6 +153,22 @@ const greenEnergyData: Row[] = [
   { "Capability Category": "Electric Mobility & Charging", "Core Offerings": "EV charging infrastructure, fleet electrification, V2G integration, charging network design", "Key Deliverables": "Charging strategies, fleet transition plans, grid impact studies" },
   { "Capability Category": "Grid Modernization", "Core Offerings": "Smart grid, microgrids, distributed energy resources, VPP aggregation, resilience planning", "Key Deliverables": "Grid modernization roadmaps, DER integration plans, resilience assessments" },
   { "Capability Category": "Circular Economy", "Core Offerings": "Battery recycling, material recovery, second-life applications, end-of-life value capture", "Key Deliverables": "Circular business models, recycling strategies, material flow analysis" },
+];
+
+const hydrogenAdvisoryData: Row[] = [
+  { "Service Area": "Hydrogen Strategy Development", "Description": "National and regional hydrogen roadmaps, market entry strategies, and ecosystem development planning.", "Key Services": "Roadmap design, market entry strategy, ecosystem planning", "Industry Applications": "Government, Energy Developers, Investors" },
+  { "Service Area": "Hydrogen Project Feasibility Studies", "Description": "Electrolyzer project feasibility studies, hydrogen production technology assessment, and site selection.", "Key Services": "Feasibility studies, technology assessment, site selection", "Industry Applications": "Industrial Players, Energy Companies" },
+  { "Service Area": "Hydrogen Infrastructure Development", "Description": "Hydrogen storage and transportation planning, pipeline infrastructure, and refueling station design.", "Key Services": "Infrastructure planning, pipeline design, HRS design", "Industry Applications": "Midstream Operators, Mobility Providers" },
+  { "Service Area": "Hydrogen Financial Modeling & Investment Structuring", "Description": "Green hydrogen project finance modeling, investment case development, and carbon credit monetization.", "Key Services": "Financial modeling, investment cases, carbon credit strategy", "Industry Applications": "Investors, Financial Institutions, Developers" },
+  { "Service Area": "Policy & Regulatory Advisory", "Description": "Compliance with hydrogen safety regulations, subsidy and incentive optimization, and alignment with national missions.", "Key Services": "Regulatory compliance, subsidy optimization, policy alignment", "Industry Applications": "Government Agencies, Corporate Legal Teams" },
+];
+
+const batteryAdvisoryData: Row[] = [
+  { "Service Area": "Battery Technology Assessment", "Description": "Evaluation of emerging battery technologies including Lithium-ion, Sodium-ion, Solid-state, and Flow batteries.", "Key Services": "Technology benchmarking, performance comparison, lifecycle analysis", "Industry Applications": "Manufacturers, EV OEMs, Storage Developers" },
+  { "Service Area": "Energy Storage System Design", "Description": "Grid-scale battery storage architecture, hybrid renewable energy systems, and battery integration with solar and wind.", "Key Services": "Storage architecture, hybrid system design, grid integration", "Industry Applications": "Utilities, Renewable Power Plants" },
+  { "Service Area": "Battery Supply Chain Strategy", "Description": "Raw material sourcing strategy, battery manufacturing ecosystem development, and recycling and circular economy planning.", "Key Services": "Sourcing strategy, ecosystem development, circular economy planning", "Industry Applications": "Mining Companies, Battery Manufacturers" },
+  { "Service Area": "Battery Recycling & Circular Economy", "Description": "Second-life battery applications, recycling infrastructure strategy, and materials recovery optimization.", "Key Services": "Second-life strategy, recycling infrastructure, recovery optimization", "Industry Applications": "Recycling Firms, E-waste Managers" },
+  { "Service Area": "Fuel Cell Advisory Services", "Description": "Fuel cell system design, hydrogen fuel integration, and stationary and mobile fuel cell applications.", "Key Services": "System design, hydrogen fuel integration, application assessment", "Industry Applications": "Aerospace, Maritime, Backup Power" },
 ];
 
 const regulatoryData: Row[] = [
@@ -395,29 +415,54 @@ const OfferingsPage = () => {
                 rows={greenEnergyData}
               />
 
-              {/* ═══ 06 — Regulatory, ESG & Sustainability ═══ */}
-              <SectionTable id="regulatory-sustainability" num="06" title="Regulatory, ESG & Sustainability"
+              {/* ═══ 06 — Hydrogen Fuel Advisory ═══ */}
+              <SectionTable
+                id="hydrogen-advisory"
+                num="06"
+                title="Hydrogen Fuel Advisory & Services"
+                description="Strategic and technical advisory across the entire hydrogen value chain — from production and infrastructure to industrial applications and mobility solutions."
+                icon={FlaskConical}
+                columns={["Service Area", "Description", "Key Services", "Industry Applications"]}
+                rows={hydrogenAdvisoryData}
+              />
+
+              {/* ═══ 07 — Battery Technology & Fuel Cell Advisory ═══ */}
+              <SectionTable
+                id="battery-advisory"
+                num="07"
+                title="Battery Technology & Fuel Cell Advisory"
+                description="Advisory services for advanced battery chemistries and fuel cell systems, enabling deep decarbonization of transport and energy storage."
+                icon={Battery}
+                columns={["Service Area", "Description", "Key Services", "Industry Applications"]}
+                rows={batteryAdvisoryData}
+              />
+
+              {/* ═══ 08 — Regulatory, ESG & Sustainability ═══ */}
+              <SectionTable id="regulatory-sustainability" num="08" title="Regulatory, ESG & Sustainability"
                 description="Navigating disclosure requirements, certification standards, and climate risk frameworks with precision."
                 icon={Shield}
                 columns={["Capability Category", "Core Offerings", "Key Deliverables"]}
                 rows={regulatoryData}
               />
 
-              {/* ═══ 07 — Project Lifecycle ═══ */}
-              <SectionTable id="project-lifecycle" num="07" title="Project Lifecycle Support"
+              {/* ═══ 09 — Project Lifecycle ═══ */}
+              <SectionTable id="project-lifecycle" num="09" title="Project Lifecycle Support"
                 description="Continuous advisory presence from first concept through to decommissioning — ensuring value creation at every stage."
                 icon={Layers}
                 columns={["Phase", "Advisory Services", "Key Activities"]}
                 rows={lifecycleData}
               />
 
-              {/* ═══ 08 — Innovative Business Models ═══ */}
-              <SectionTable id="innovative-business-models" num="08" title="Innovative Business Models"
+              {/* ═══ 10 — Innovative Business Models ═══ */}
+              <SectionTable id="innovative-business-models" num="10" title="Innovative Business Models"
                 description="Designing and structuring next-generation revenue models that monetise clean energy assets in novel ways."
                 icon={Lightbulb}
                 columns={["Model Category", "Description", "Advisory Focus"]}
                 rows={innovativeData}
               />
+
+               {/* ═══ 11 — VCF Section ═══ */}
+              <VCFSection />
 
               {/* ── Cross-Cutting divider ── */}
               <div className="flex items-center gap-4 mb-14">
